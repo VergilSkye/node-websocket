@@ -4,24 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="icon" href="favicon.ico?v=1.1">
+    <title>Node with Socket.io</title>
 </head>
 <body>
     <p>Welcome to the app chat</p>
 
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io();
-
-        socket.on('connect', ()=>{
-            console.log('Connected to server');
-        });
-
-        socket.on('disconnect', (socket) => {
-            console.log('Disconnected from server');
-            
-        })
-    </script>
+    <script src="/js/index.js"></script>
 </body>
 </html> 
