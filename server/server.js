@@ -4,7 +4,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 
 const publicPath = path.join(__dirname, '../public');
-//Setting express
+const port = process.env.PORT || 3000 ;
 const app = express();
 
 //app.set('views', publicPath);
@@ -15,8 +15,8 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(publicPath));
 
 
-app.listen(3000, function() {
-    console.log('Express server listening on port 3000');
+app.listen(port, () => {
+    console.log('Express server listening on port ',port);
 });
 
 console.log(publicPath);
