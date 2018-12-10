@@ -23,14 +23,15 @@ app.use(favicon(path.join(__dirname, '../public', 'images', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, '../public')));
 
 io.on('connection', (socket) => {
-    console.log('New user connected');
+    console.log('New user connected');   
+ 
 
     socket.emit('newMessage',generateMessage('Admin','Welcome to the chat app'));
     socket.broadcast.emit('newMessage',generateMessage('Admin','New user joined'));
 
     socket.on('createMessage', (message,callback) => {
         console.log('createMessagge', message);        
-        io.emit('newMessage',generateMessage(message.from, message.text));
+        io.emit('newMessage',generateMessage(message.from + i, message.text));
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
         //     text: message.text,

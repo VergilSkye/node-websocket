@@ -1,5 +1,6 @@
 var socket = io();
 
+
 socket.on('connect', () => {
     console.log('Connected to server');
 });
@@ -20,8 +21,8 @@ jQuery('#message-form').on('submit', function (e) {
     e.preventDefault();
     
     socket.emit('createMessage',{
-        from: socket.id,
-        text: jQuery('[name=message]').val
+        from: 'User:',
+        text: jQuery('[name=message]').val()
     }, function() {
     });
 });
