@@ -6,32 +6,38 @@ socket.on('connect', () => {
 });
 
 socket.on('disconnect', (socket) => {
-    console.log('Disconnected from server');            
+    console.log('Disconnected from server');
 });
 
-socket.on('newMessage', (message)=>{
-    console.log('newMessage',message);
+socket.on('newMessage', (message) => {
+    console.log('newMessage', message);
     const li = jQuery('<li></li>');
     li.text(`${message.from}: ${message.text}`);
-    
+
     jQuery('#messages').append(li)
 });
 
 jQuery('#message-form').on('submit', function (e) {
     e.preventDefault();
-    
-    socket.emit('createMessage',{
+
+    socket.emit('createMessage', {
         from: 'User:',
         text: jQuery('[name=message]').val()
-    }, function() {
-    });
+    }, function () {});
 });
 
 var locationButton = jQuery('#send-location');
-locationButton.on('click',function (){
-    if(!navigator.geolocation){
+locationButton.on('click', function () {
+    if (!navigator.geolocation) {
         return alert('GeoLocation not supported by your browser.')
     }
 
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options)
+    navigator.geolocation.getCurrentPosition(function (position) {       
+        socket.emit('createLocationMessage',{
+            latitude:position.coords.latitude,
+            longitude:position.coords.longitude
+        });
+    }, function () {
+        alert('Unable to fetch location');
+    });
 });

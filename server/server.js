@@ -32,13 +32,12 @@ io.on('connection', (socket) => {
     socket.on('createMessage', (message,callback) => {
         console.log('createMessagge', message);        
         io.emit('newMessage',generateMessage(message.from + i, message.text));
-        // socket.broadcast.emit('newMessage', {
-        //     from: message.from,
-        //     text: message.text,
-        //     createAt: new Date().getTime()
-        // });
         callback('This is from the server.');
     });
+
+    socket.on('createLocationMessage', (coords)=>{     
+        io.emit('newMessage',generateMessage('Admin',`${coords.latitude}, ${coords.longitude}`));
+    })
 
     socket.on('disconnect', (socket) => {
         console.log('User was disconnected');
