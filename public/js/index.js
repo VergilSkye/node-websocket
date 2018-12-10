@@ -20,10 +20,17 @@ jQuery('#message-form').on('submit', function (e) {
     e.preventDefault();
     
     socket.emit('createMessage',{
-        from: 'User',
-        text: jQuery('[name=message]').val()
+        from: socket.id,
+        text: jQuery('[name=message]').val
     }, function() {
-
     });
+});
 
+var locationButton = jQuery('#send-location');
+locationButton.on('click',function (){
+    if(!navigator.geolocation){
+        return alert('GeoLocation not supported by your browser.')
+    }
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options)
 });
