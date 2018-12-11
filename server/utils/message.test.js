@@ -22,8 +22,6 @@ describe('generateLocationMessage', ()=>{
         const message = generateLocationMessage(from,lat,long);
 
         expect(typeof message.createdAt).toBe('number');
-        expect(message).toMatchObject({from,url});
-        
-
+        expect(message).toMatchObject({from,url});  
     });
 })
