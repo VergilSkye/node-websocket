@@ -1,5 +1,21 @@
 var socket = io();
 
+function scrollToBotton () {
+    // Selectors
+    const messages = jQuery('#messages');
+    const newMessage = messages.children('li:last-child');
+    // Heinghts
+    const clientHeight = messages.prop('clientHeight');
+    const scrollTop = messages.prop('scrollTop');
+    const scrollHeight = messages.prop('scrollHeight');
+    const newMessageHeight = newMessage.innerHeight();
+    const lastMessageHeight = newMessage.prev().innerHeight();
+
+
+    if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+        messages.scrollTop(scrollHeight);       
+    }
+}
 
 socket.on('connect', () => {
     console.log('Connected to server');
@@ -18,18 +34,11 @@ socket.on('newMessage', (message) => {
         createAt:formattedTime
     });
 
-    jQuery('#messages').append(html);
-
-        
-    // const li = jQuery('<li></li>');
-    // li.text(`${message.from} ${formattedTime}: ${message.text}`);
-
-    // jQuery('#messages').append(li)
+    jQuery('#messages').append(html); 
+    scrollToBotton();       
 });
 
-
-socket.on('newLocationMessage', function (message) {
-    
+socket.on('newLocationMessage', function (message) {    
     const formattedTime = moment(message.createdAt).format('h:mm a');
     const template = jQuery('#location-message-template').html();
     const html = Mustache.render(template,{
@@ -38,20 +47,12 @@ socket.on('newLocationMessage', function (message) {
         createAt:formattedTime
     });
     jQuery('#messages').append(html);
-
-    // const li = jQuery('<li></li>');
-    // const a = jQuery('<a target="_blank">My current location</a>');
- 
-    // li.text(`${message.from} ${formattedTime}: `);
-    // a.attr('href', message.url);
-    // li.append(a);
-    // jQuery('#messages').append(li)
+    scrollToBotton();      
 
 });
 
 jQuery('#message-form').on('submit', function (e) {
-    e.preventDefault();
-    console.log(e);
+    e.preventDefault();    
 
     socket.emit('createMessage', {
         from: 'User',
